@@ -1,0 +1,17 @@
+const { chromium } = await import('playwright');
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: { width: 1650, height: 980 }});
+await page.goto('http://127.0.0.1:3024/', { waitUntil: 'domcontentloaded' });
+const btn = page.getByTestId('produce-button-panel');
+console.log('panel visible', await btn.isVisible(), 'enabled', await btn.isEnabled());
+console.log('panel box', await btn.boundingBox());
+const topbarBtn = page.getByTestId('produce-button-topbar');
+console.log('topbar visible', await topbarBtn.isVisible(), 'enabled', await topbarBtn.isEnabled());
+console.log('topbar box', await topbarBtn.boundingBox());
+const respPromise = page.waitForResponse(r=>r.url().includes('/api/produce') && r.request().method()==='POST', { timeout: 45000 });
+await btn.click();
+const resp = await respPromise;
+console.log('resp', resp.status(), resp.url());
+const body = await resp.json();
+console.log('artifacts', Array.isArray(body.artifacts)?body.artifacts.length:0, 'status ok', body.ok);
+await browser.close();

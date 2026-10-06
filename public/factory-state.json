@@ -1,0 +1,382 @@
+{
+  "id": "demo-reference",
+  "name": "Ollama Batch a919900b",
+  "generated_at": "2026-06-17T12:36:31.654Z",
+  "provider_mode": "local-llm",
+  "video_provider": "local-ffmpeg",
+  "providers": [
+    "Local MCP connector",
+    "Local development OAuth issuer",
+    "Verified ChatGPT account",
+    "Ollama qwen3.6:latest",
+    "Image 2 account-auth handoff",
+    "Local FFmpeg renderer",
+    "OpenAI TTS",
+    "Local FFmpeg"
+  ],
+  "source_asset": null,
+  "provider_status": {
+    "recommended_mode": "local-llm",
+    "api_key": {
+      "env_name": "OPENAI_API_KEY",
+      "local_target": ".env.local",
+      "configured": true,
+      "source": "environment"
+    },
+    "local_llm": {
+      "env_name": "OLLAMA_MODEL",
+      "local_target": ".env.local",
+      "configured": true,
+      "source": "http://127.0.0.1:11434",
+      "model": "qwen3.6:latest",
+      "base_url": "http://127.0.0.1:11434"
+    },
+    "account_auth": {
+      "env_name": "CHATGPT_ACCOUNT_VERIFIED",
+      "local_target": ".env.local",
+      "configured": true,
+      "source": "environment",
+      "method": "ChatGPT Apps OAuth 2.1"
+    },
+    "oauth_provider": {
+      "mode": "development",
+      "production_configured": false,
+      "issuer": "local-dev",
+      "jwks_uri": null,
+      "source": "local-dev",
+      "missing": [
+        "CHATGPT_OAUTH_ISSUER",
+        "CHATGPT_OAUTH_JWKS_URI"
+      ]
+    },
+    "mcp_app": {
+      "configured": true,
+      "endpoint": "/mcp",
+      "app_manifest": "/api/chatgpt/app-manifest",
+      "oauth_protected_resource": "/.well-known/oauth-protected-resource",
+      "oauth_authorization_server": "/oauth-placeholder/.well-known/oauth-authorization-server",
+      "oauth_authorize": "/oauth-placeholder/authorize",
+      "oauth_token": "/oauth-placeholder/token",
+      "oauth_register": "/oauth-placeholder/register",
+      "auth_required": true,
+      "scopes": [
+        "shortvideo:write",
+        "image2:handoff",
+        "readiness:read"
+      ]
+    },
+    "steps": [
+      {
+        "id": "chatgpt-mcp-app",
+        "label": "ChatGPT MCP App",
+        "provider": "Local MCP connector",
+        "role": "ChatGPT Apps tool surface with OAuth protected-resource metadata and PKCE token exchange",
+        "status": "ready"
+      },
+      {
+        "id": "production-oauth-verifier",
+        "label": "Production OAuth",
+        "provider": "Local development OAuth issuer",
+        "role": "Verifies ChatGPT Apps account-auth Bearer tokens without using an OpenAI API key",
+        "status": "needs_auth"
+      },
+      {
+        "id": "chatgpt-account",
+        "label": "ChatGPT Account",
+        "provider": "Verified ChatGPT account",
+        "role": "Account-auth route for ChatGPT Apps / MCP OAuth integration",
+        "status": "ready"
+      },
+      {
+        "id": "llm-director",
+        "label": "LLM Director",
+        "provider": "Ollama qwen3.6:latest",
+        "role": "VideoRecipe, scripts, shot prompts, captions, hashtags",
+        "status": "ready"
+      },
+      {
+        "id": "image-generator",
+        "label": "Shot Images",
+        "provider": "Image 2 account-auth handoff",
+        "role": "9:16 reference-safe stills for every shot",
+        "status": "ready"
+      },
+      {
+        "id": "video-generator",
+        "label": "Image-to-Video",
+        "provider": "Local FFmpeg renderer",
+        "role": "Playable MP4 files from generated content and captions",
+        "status": "ready"
+      },
+      {
+        "id": "voiceover",
+        "label": "Voiceover",
+        "provider": "OpenAI TTS",
+        "role": "Narration audio from episode voiceover lines",
+        "status": "ready"
+      },
+      {
+        "id": "packager",
+        "label": "Packager",
+        "provider": "Local FFmpeg",
+        "role": "Captions, audio, clips, and metadata assembled into MP4",
+        "status": "ready"
+      }
+    ]
+  },
+  "recipe": {
+    "recipe_name": "Chrono-Lantern Express",
+    "source_type": "reference video",
+    "source_summary": "A mysterious train made of glowing lanterns travels through a surreal landscape, hinting at a time-bending or dimensional mystery.",
+    "platform": "tiktok",
+    "aspect_ratio": "9:16",
+    "duration_range_seconds": {
+      "min": 20,
+      "max": 35
+    },
+    "genre": "Mystery / Sci-Fi Fantasy",
+    "visual_style": "Ethereal and cinematic with soft glows, deep shadows, and a dreamlike color palette of indigo, amber, and silver. Slow-motion elements mixed with rapid cuts for tension.",
+    "character_rules": [
+      "Create new characters for every batch.",
+      "Keep role archetypes, not exact identities.",
+      "Use reference only for pacing, structure, and visual grammar."
+    ],
+    "story_structure": [
+      {
+        "beat_name": "hook",
+        "purpose": "open with the impossible reveal",
+        "duration_seconds": 3
+      },
+      {
+        "beat_name": "setup",
+        "purpose": "show the normal expectation",
+        "duration_seconds": 6
+      },
+      {
+        "beat_name": "detail",
+        "purpose": "reveal one strange clue",
+        "duration_seconds": 7
+      },
+      {
+        "beat_name": "reaction",
+        "purpose": "let characters react emotionally",
+        "duration_seconds": 6
+      },
+      {
+        "beat_name": "cliffhanger",
+        "purpose": "end before the answer",
+        "duration_seconds": 5
+      }
+    ],
+    "shot_style": {
+      "camera_movements": [
+        "slow push-in",
+        "reaction close-up",
+        "dramatic zoom",
+        "subtle handheld drift"
+      ],
+      "shot_types": [
+        "establishing shot",
+        "two-shot",
+        "object close-up",
+        "reaction shot",
+        "freeze cliffhanger"
+      ]
+    },
+    "caption_style": {
+      "font_style": "bold white text with black stroke",
+      "position": "lower center",
+      "words_per_caption": "2-5",
+      "emphasis_rules": [
+        "uppercase shock words",
+        "one key phrase per beat",
+        "never bake text into generated images"
+      ]
+    },
+    "audio_style": {
+      "voice": "energetic narrator",
+      "music_mood": "suspenseful short-drama bed",
+      "sound_effects": [
+        "heartbeat",
+        "whoosh",
+        "dramatic hit"
+      ]
+    },
+    "originality_rules": [
+      "Do not use lantern-shaped trains; use a different vehicle (e.g., a floating gondola or a steam-powered cart with bioluminescent wheels).",
+      "Avoid the specific 'AI' terminology in captions; imply intelligence through visual cues like shifting symbols or autonomous movement.",
+      "Create new character archetypes; do not replicate any human figures from source material.",
+      "Invent a unique destination and origin setting distinct from typical train stations.",
+      "Design original symbolic motifs for the mystery (e.g., floating hourglasses instead of clocks)."
+    ]
+  },
+  "jobs": [
+    {
+      "id": "queued",
+      "label": "Queued",
+      "status": "complete",
+      "count": 1
+    },
+    {
+      "id": "analyzing",
+      "label": "Analyzing",
+      "status": "complete",
+      "count": 1
+    },
+    {
+      "id": "generating",
+      "label": "Generating",
+      "status": "active",
+      "count": 0
+    },
+    {
+      "id": "rendering",
+      "label": "Rendering",
+      "status": "active",
+      "count": 0
+    },
+    {
+      "id": "review",
+      "label": "Review gate",
+      "status": "pending",
+      "count": 0
+    },
+    {
+      "id": "completed",
+      "label": "Completed",
+      "status": "pending",
+      "count": 1
+    }
+  ],
+  "episodes": [
+    {
+      "id": "episode-001",
+      "title": "The Whispering Rails",
+      "source_topic": "AI lantern train mystery",
+      "hook": "A glowing path appears out of nowhere, leading to a vehicle that shouldn't exist.",
+      "world": "A fog-drenched valley where gravity is slightly distorted, and ancient stones float in the air. The sky is a twilight purple.",
+      "genre": "Mystery / Sci-Fi Fantasy",
+      "visual_style": "Ethereal and cinematic with soft glows, deep shadows, and a dreamlike color palette of indigo, amber, and silver. Slow-motion elements mixed with rapid cuts for tension.",
+      "duration_seconds": 45,
+      "status": "rendered",
+      "review_gate": "approved",
+      "created_at": "2026-06-17T12:36:11.738Z",
+      "output_path": "outputs/demo-reference/episode-001/final.mp4",
+      "metadata_path": "outputs/demo-reference/episode-001/metadata.json",
+      "captions_path": "outputs/demo-reference/episode-001/captions.srt",
+      "poster_path": "/assets/fruit-drama-preview.png",
+      "hashtags": [
+        "#TimeTravelMystery",
+        "#FantasySciFi",
+        "#CinematicShorts",
+        "#MysteryReveal",
+        "#DigitalArt"
+      ],
+      "captions": [
+        {
+          "start": 0.5,
+          "end": 3,
+          "text": "They said the tracks were gone forever..."
+        },
+        {
+          "start": 3.5,
+          "end": 6.5,
+          "text": "But tonight, the valley breathes."
+        },
+        {
+          "start": 7,
+          "end": 10,
+          "text": "Something is coming to collect a debt of time."
+        },
+        {
+          "start": 12,
+          "end": 15,
+          "text": "Do not look at the windows."
+        },
+        {
+          "start": 18,
+          "end": 22,
+          "text": "It knows when you're watching."
+        },
+        {
+          "start": 25,
+          "end": 30,
+          "text": "The journey begins where logic ends."
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "text": "Will you step on board?"
+        }
+      ],
+      "voiceover": [
+        "The valley wakes when the moon bleeds silver.",
+        "A sound like cracking ice echoes through the pines.",
+        "Not steam. Not magic. Something older.",
+        "It moves without wheels, guided by unseen hands.",
+        "The air tastes of ozone and forgotten memories.",
+        "One seat remains open for the brave."
+      ],
+      "shots": [
+        {
+          "shot_id": 1,
+          "duration_seconds": 4,
+          "visual": "Wide shot of a misty valley with floating stones. A faint golden light pulses in the distance.",
+          "image_prompt": "Cinematic wide shot of a mystical valley at twilight, floating ancient stones, thick fog, distant pulsing golden light, ethereal atmosphere, 8k, highly detailed",
+          "video_prompt": "Slow camera pan across misty valley, floating stones gently bobbing, golden light pulses rhythmically in distance"
+        },
+        {
+          "shot_id": 2,
+          "duration_seconds": 3,
+          "visual": "Close-up of mossy ground. Golden threads weave themselves into a path.",
+          "image_prompt": "Macro shot of mossy forest floor, bioluminescent golden threads weaving together to form a path, magical realism, soft focus background",
+          "video_prompt": "Time-lapse style movement of glowing threads weaving into a path on mossy ground"
+        },
+        {
+          "shot_id": 3,
+          "duration_seconds": 5,
+          "visual": "A large, ornate wooden cart with wheels made of swirling amber light emerges from the fog. It has no engine.",
+          "image_prompt": "Fantasy vehicle concept, ornate wooden cart, wheels made of swirling amber energy and light, no engine, emerging from thick fog, cinematic lighting, mysterious",
+          "video_prompt": "Cart emerges slowly from fog, amber wheels spinning with internal light, camera tracks alongside it"
+        },
+        {
+          "shot_id": 4,
+          "duration_seconds": 4,
+          "visual": "Interior POV: The cart is empty but filled with floating holographic maps and shifting geometric symbols.",
+          "image_prompt": "POV shot inside a magical vehicle interior, floating holographic maps, shifting geometric runes, amber ambient lighting, depth of field",
+          "video_prompt": "Camera floats through the interior, focusing on holographic maps that shift and change as the cart moves"
+        },
+        {
+          "shot_id": 5,
+          "duration_seconds": 3,
+          "visual": "Close-up of a hand (gloved in silk) touching a control panel that reacts with ripples of light.",
+          "image_prompt": "Close up of a hand in silk glove touching a mystical interface panel, ripples of light emanating from touch point, intricate details, macro lens",
+          "video_prompt": "Hand touches panel, light ripples outward in slow motion, camera focuses on the interaction"
+        },
+        {
+          "shot_id": 6,
+          "duration_seconds": 5,
+          "visual": "The cart accelerates into a tunnel of swirling colors. The landscape outside blurs into streaks of indigo and silver.",
+          "image_prompt": "Dynamic shot of fantasy cart speeding through a color tunnel, motion blur, streaks of indigo and silver light, sense of speed and mystery",
+          "video_prompt": "Cart speeds forward, background blurs into light streaks, camera shakes slightly to convey speed"
+        },
+        {
+          "shot_id": 7,
+          "duration_seconds": 4,
+          "visual": "Exterior shot: The cart vanishes into a vortex in the sky, leaving only a trail of golden dust.",
+          "image_prompt": "Wide shot of fantasy cart entering a sky vortex, golden dust trail left behind, twilight sky, epic scale",
+          "video_prompt": "Cart enters vortex and disappears, golden dust lingers and fades slowly"
+        },
+        {
+          "shot_id": 8,
+          "duration_seconds": 7,
+          "visual": "Final frame: The path on the ground glows brighter, inviting the viewer. Text overlay appears.",
+          "image_prompt": "The glowing path on the forest floor pulses intensely, inviting perspective, text space available, atmospheric fog",
+          "video_prompt": "Path pulses with light, camera slowly zooms in on the empty seat of the cart visible at the end of the path"
+        }
+      ],
+      "ai_disclosure": "This draft contains AI-generated visuals, voice, and captions.",
+      "recipe_snapshot": "Chrono-Lantern Express"
+    }
+  ]
+}
